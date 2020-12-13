@@ -1,0 +1,40 @@
+<%- include('../Includes/head.ejs') %> 
+
+    </head>
+<body>
+
+<%- include('../Includes/navigation.ejs') %> 
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+        <div class="container" style="margin:20px; "> 
+            <form action="<%= editing === true ? '/admin/edit-product/product._id'  : '/admin/add-product'  %>"  method="POST" enctype="multipart/form-data" >
+                <label for='lname'> Title </label>
+                <input id="lname" type="text" name="name" placeholder="Add Product ..." value="<% if (editing || hasError) { %><%= product.title %><% } %>">
+             
+
+                <!-- <label for='imageUrl'> Image Url </label>
+                <input id="imageUrl" type="text" name="imageUrl" placeholder="Image Url ..."  value="<% if (editing || hasError) { %><%= product.imageUrl %><% } %>"> 
+                 -->
+                
+
+                 <label for='imageUrl'> Image  </label>
+                 <input id="image" type="file" name="image" placeholder="Image Url ..."> 
+                
+                 
+                <label for='price'> Price </label>
+                <input id="price" type="text" name="price"  value="<% if (editing || hasError) { %><%= product.price %><% } %>">
+                <br>
+                <label for='desc'> Description </label>
+                <input id='desc' name='desc'  type="text"  placeholder="Description ..." value="<% if (editing || hasError) { %><%= product.desc %><% } %>"> </textarea>
+                <input name='id' type="hidden" value="<%= editing === true ? product._id : ''  %>">
+                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type ="submit"  value="<%= editing === true ? 'Updated Product' : 'Add Product'  %>"> 
+
+            </form>
+        </div>
+
+    </main>
+<%- include('../Includes/end.ejs') %> 

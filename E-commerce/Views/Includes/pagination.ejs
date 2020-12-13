@@ -1,0 +1,18 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <% if(hasPreviousPage) { %>
+            <li class="page-item ">
+                <a class="page-link" href="/?page=<%=previousPage%>" >Previous</a>
+              </li>
+            <% }%> 
+            <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="/?page=2">2</a></li>
+            <li class="page-item"><a class="page-link" href="/?page=3">3</a></li>
+        <% if(hasNextPage) { %>
+            <li class="page-item">
+                <a class="page-link" href="/?page=<%= nextPage %>">Next</a>
+              </li>
+            <% }%> 
+   
+    </ul>
+  </nav>

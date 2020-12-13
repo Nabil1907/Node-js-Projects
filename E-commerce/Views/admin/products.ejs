@@ -1,0 +1,65 @@
+<%- include('../Includes/head.ejs') %>
+</head>
+
+<body>
+
+    <%- include('../Includes/navigation.ejs') %>
+
+    <main>
+        <% if (prods.length > 0) { %>
+        <div class="row">
+            <% for (let product of prods) { %>
+            <article class="card product-item">
+                <div class="col-sm-3">
+                    <div class="card" style="width: 18rem; margin-bottom: 5px;">
+                        <img class="card-img-top" src="\<%= product.imageUrl %>" alt="<%= product.title %>"
+                            style="height: 300px;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.title %></h5>
+                            <h6 class="card-price">Price : <%= product.price %>$ </h6>
+                            <p class="card-text"><%= product.desc %></p>
+                            <a href="/products/<%= product._id %>" class="btn btn-primary">Details</a>
+                            <form action="/cart" method="POST">
+                                <button type="submit" class="btn btn-primary">
+                                    Add To Card
+                                </button>
+                                <input type="hidden" value="<%= product._id %>" name="productId">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                            </form>
+                            <input type="hidden" value="<%= product._id %>" name="productId">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                            <button type="submit" class="btn btn-primary" onclick="deleteProduct(this)">
+                                Delete
+                            </button>
+
+
+                            <form action="admin/edit-product/<%= product._id %>" method="GET">
+                                <!-- <input  name='<%= csrfToken %>' type="hidden" value="_csrf" > -->
+                                <button type="submit" class="btn btn-primary">
+                                    Edit
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <% } %>
+        </div>
+
+
+        <%  }  else { %>
+        <h1> Not Product</h1>
+        <% } %>
+        <script src="/js/admin.js">  </script>
+        <%- include('../Includes/pagination.ejs',{ currentPage:currentPage ,
+                totalProducts:totalProducts , 
+                hasNextPage:hasNextPage,
+                hasPreviousPage:hasPreviousPage,
+                nextPage:nextPage,
+                previousPage:previousPage}) %>
+
+    </main>
+    <%- include('../Includes/end.ejs') %>

@@ -1,0 +1,39 @@
+<%- include('../Includes/head.ejs') %> 
+</head>
+<body>
+
+<%- include('../Includes/navigation.ejs') %> 
+
+    <main>
+        <% if (prods.length > 0) { %> 
+            <div class="row">
+            <% prods.forEach(p=> { %> 
+                
+                    <div class="col-sm-3">
+                        <div class="card" style="width: 18rem; margin-bottom: 5px;" >
+                            <div class="card-body">
+                                <h5 class="card-title"><%= p.title %></h5>
+                                <h5 class="card-title"> Quntity :  <%= p.quantity %> </h5>
+                                <!-- <h6 class="card-price">Price : <%=  p.price %>$ </h6> -->
+                
+
+                            </div>
+                            
+                         </div>
+                    </div>
+                   
+
+                
+            <% });  %>
+        </div>
+        
+        <%  }  else { %>
+            <h1> Not Product</h1>
+            <% } %>
+
+      
+            <div>
+                <h5> Total :  <%= totalPrice %> </h5>
+            </div>
+    </main>
+<%- include('../Includes/end.ejs') %> 

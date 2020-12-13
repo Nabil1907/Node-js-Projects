@@ -1,0 +1,30 @@
+<%- include('../Includes/head.ejs') %> 
+</head>
+<body>
+
+<%- include('../Includes/navigation.ejs') %> 
+<% if(errorMessage){ %> 
+<div class="alert alert-danger">
+  <div><%= errorMessage %> </div>
+</div>
+<% } %>
+
+<form style="width: 500px;margin-left: 500px;margin-top: 50px;" action="/login" method="POST">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="form-group" >
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+    </div>
+    <div class="center"> 
+
+      <a href="/reset"> Reset Password </a>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+
+  </form>
+<%- include('../Includes/end.ejs') %> 
