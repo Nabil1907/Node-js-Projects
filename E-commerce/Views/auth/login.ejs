@@ -1,30 +1,42 @@
-<%- include('../Includes/head.ejs') %> 
-</head>
-<body>
+<%- include('../Includes/head.ejs') %>
+<link rel="stylesheet" href="/css/Auth/login.css"> 
+  </head> 
+  <body>
 
-<%- include('../Includes/navigation.ejs') %> 
-<% if(errorMessage){ %> 
-<div class="alert alert-danger">
-  <div><%= errorMessage %> </div>
-</div>
-<% } %>
+   
 
-<form style="width: 500px;margin-left: 500px;margin-top: 50px;" action="/login" method="POST">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <div class="form-group" >
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-    </div>
-    <div class="center"> 
+        <div id="card">
+          <div id="card-content">
+            <div id="card-title">
+              <h2>LOGIN</h2>
+              <div class="underline-title"></div>
+            </div>
+            <form action="/login" method="POST" class="form">
+              <label for="user-email" style="padding-top:13px">
+                &nbsp;Email
+              </label>
+              <input type="email" id="user-email" class="form-content" aria-describedby="emailHelp" name="email">
 
-      <a href="/reset"> Reset Password </a>
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+              <div class="form-border"></div>
+              <label for="user-password" style="padding-top:22px">&nbsp;Password
+              </label>
+              <input type="password"  class="form-content" id="user-password" name="password">
+              <input id="user-password" class="form-content" type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="form-border"></div>
+              <a href="/signup">
+                <legend id="have-acc">Not Have Account?</legend>
+              </a>
+             
+              <input id="submit-btn" type="submit" name="submit" value="LOGIN" />
+            </form>
+          </div>
 
-  </form>
-<%- include('../Includes/end.ejs') %> 
+          <% if(errorMessage){ %>
+            <div class="alert alert-danger">
+              <div>
+                <%= errorMessage %>
+              </div>
+            </div>
+            <% } %>
+        </div>
+        <%- include('../Includes/end.ejs') %>

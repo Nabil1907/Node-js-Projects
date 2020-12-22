@@ -1,30 +1,47 @@
-<%- include('../Includes/head.ejs') %> 
-</head>
-<body>
+<%- include('../Includes/head.ejs') %>
+  <link rel="stylesheet" href="/css/Auth/signup.css">
 
-<%- include('../Includes/navigation.ejs') %> 
-<% if(errorMessage){ %> 
-  <div class="alert alert-danger">
-    <div><%= errorMessage %> </div>
-  </div>
-  <% } %>
-  
-<form style="width: 500px;margin-left: 500px;margin-top: 50px;" action="/signup" method="POST" novalidate>
-    <div class="form-group" >
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value="<%= oldInput.email %>">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" name="password" value="<%= oldInput.password %>">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Confirm Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" name="confirmPassword" value="<%= oldInput.confirmPassword  %>">
-      </div>
-      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-    <button type="submit" class="btn btn-primary">SignUp</button>
+  </head>
 
-  </form>
-<%- include('../Includes/end.ejs') %> 
+  <body>
+    <div id="card">
+
+   
+          <div id="card-content">
+            <div id="card-title">
+              <h2>Sign Up</h2>
+              <div class="underline-title"></div>
+            </div>
+            <form action="/signup" method="POST" class="form" novalidate>
+                <label for="user-email" style="padding-top:13px">
+                  &nbsp;Email
+                </label>
+                <input type="email" class="form-content" id="user-email" aria-describedby="emailHelp" name="email"
+                  value="<%= oldInput.email %>">
+              <div class="form-border"></div>
+              <label for="user-password" style="padding-top:13px">&nbsp;Password
+              </label>
+              <input type="password" class="form-content" id="user-password" name="password" value="<%= oldInput.password %>">
+              <div class="form-border"></div>
+              <label for="user-password" style="padding-top:13px">&nbsp;Confirm Password
+              </label>
+              <input type="password" class="form-content" id="user-password" name="confirmPassword"
+                value="<%= oldInput.confirmPassword  %>">
+                <div class="form-border"></div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <a href="/login">
+                  <legend id="have-acc">Are you have account ? </legend>
+                </a>
+              <input id="submit-btn" type="submit" name="submit" value="SIGN UP" />
+
+            </form>
+          </div>
+          <% if(errorMessage){ %>
+            <div class="alert alert-danger">
+              <div>
+                <%= errorMessage %>
+              </div>
+            </div>
+            <% } %>
+        </div>
+        <%- include('../Includes/end.ejs') %>

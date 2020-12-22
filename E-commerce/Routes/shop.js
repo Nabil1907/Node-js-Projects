@@ -7,9 +7,10 @@ const routes = express.Router();
 const shopControl = require('../controllers/shop');
 
 const isAuth = require('../middleware/isAuth');
-routes.get('/', shopControl.getIndex);
 
-routes.get('/products' ,shopControl.getIndex);
+routes.get('/',isAuth, shopControl.getIndex);
+
+routes.get('/products' ,isAuth,shopControl.getIndex);
 
 routes.get('/products/:productId',shopControl.getProduct);
 

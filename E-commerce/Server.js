@@ -22,8 +22,7 @@ const userRoutes = require('./Routes/shop.js');
 const authRoutes = require('./Routes/auth'); 
 
 const mongoose = require('mongoose'); 
-
-const mongoDbUrl ='mongodb+srv://nabilsalman:KH5vZPXbVedCKh6C@cluster0.z526z.mongodb.net/<dbname>?retryWrites=true&w=majority';
+const mongoDbUrl ='mongodb+srv://nabilsalman:P2B6sL5mQew9QUhj@products.z526z.mongodb.net/<dbname>?retryWrites=true&w=majority';
 
 const path = require('path'); 
 
@@ -142,16 +141,16 @@ app.use(erroPage.get404Page);
 mongoose.connect(mongoDbUrl)
 .then(()=>{
     
-    // const user = new User({
-    //     name:'nabil',
-    //     email:'nabil@yahoo.com',
-    //     cart: {
-    //         items : [
-    //             // ... 
-    //         ]
-    //     }
-    // }); 
-    // user.save()
+    const user = new User({
+        name:'nabil',
+        email:'nabil@yahoo.com',
+        cart: {
+            items : [
+                // ... 
+            ]
+        }
+    }); 
+    user.save()
     app.listen(3000);
 })
 .catch(err=>{

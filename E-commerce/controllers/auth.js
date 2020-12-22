@@ -17,7 +17,6 @@ const transporter = nodemailer.createTransport(sendMailer({
 const bcrypt = require('bcryptjs')
 exports.getLogin =(req,res,next)=>{
     let message = req.flash('error');
-    console.log(' message'+ message)
     if (message.length > 0) {
         message = message[0];
     } else {
