@@ -4,6 +4,8 @@ const Order = require('../models/order');
 const fs = require('fs');
 const path = require('path');
 const pdfKit = require('pdfkit');
+const axios = require('axios');
+const fetch = require("node-fetch");
 
 const ITEM_PER_PAGE = 1 ; 
 // // const Cart = require('../models/cart');
@@ -28,9 +30,39 @@ const ITEM_PER_PAGE = 1 ;
     
 // };
 
+exports.getApiIndex =(req,res,next)=>{
+    const page = +req.query.page || 1;  
+    let totalProducts ; 
+    fetch('https://fakestoreapi.com/products')
+    .then(res=>res.json())
+    .then(json=>{
+        const page = +req.query.page || 1;  
+        let totalProducts ; 
+        fetch('https://fakestoreapi.com/products')
+        .then(res=>res.json())
+        .then(json=>{
+                 totalProducts = Object.keys(json).length ;
+                    res.render('user/onlineShop.ejs',{
+                        prods : json ,
+                        pagetitle :'Products' ,
+                        path:'shop',
+                        isAuth: req.session.login,
+                        currentPage:page,
+                        totalProducts:totalProducts , 
+                        hasNextPage:ITEM_PER_PAGE*page<totalProducts,
+                        hasPreviousPage:page>1,
+                        nextPage:page+1,
+                        previousPage:page-1,
+                        lastPage:Math.ceil(totalProducts/ITEM_PER_PAGE)
+                        
+                        });
+    
+    }).catch(err=>console.log(err))
+})
+};
 exports.getIndex = (req,res,next ) => {
     // const products = new Product() ; 
-    const page = +req.query.page || 1; 
+    const page = +req.query.page || 1;  
     let totalProducts ; 
     Product.find()
     .count()

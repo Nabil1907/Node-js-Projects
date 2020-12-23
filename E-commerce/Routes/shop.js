@@ -8,7 +8,7 @@ const shopControl = require('../controllers/shop');
 
 const isAuth = require('../middleware/isAuth');
 
-routes.get('/',isAuth, shopControl.getIndex);
+routes.get('/',isAuth, shopControl.getApiIndex);
 
 routes.get('/products' ,isAuth,shopControl.getIndex);
 
