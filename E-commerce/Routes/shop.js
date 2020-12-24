@@ -18,6 +18,10 @@ routes.get('/cart' ,isAuth, shopControl.getCarts);
 
 routes.post('/cart',isAuth,shopControl.postCart);
 
+routes.post('/addToCard',isAuth,shopControl.postAddCart);
+
+
+
 routes.get('/checkout' ,isAuth, shopControl.getcheckout);
 
 // // routes.get('/checkout',shopControl.checkout);

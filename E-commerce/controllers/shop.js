@@ -6,8 +6,9 @@ const path = require('path');
 const pdfKit = require('pdfkit');
 const axios = require('axios');
 const fetch = require("node-fetch");
+const products = require('../models/products');
 
-const ITEM_PER_PAGE = 1 ; 
+const ITEM_PER_PAGE = 20 ; 
 // // const Cart = require('../models/cart');
 // exports.getProducts = (req, res, next) => {
 //     // const products = new Product() ; 
@@ -34,13 +35,10 @@ exports.getApiIndex =(req,res,next)=>{
     const page = +req.query.page || 1;  
     let totalProducts ; 
     fetch('https://fakestoreapi.com/products')
-    .then(res=>res.json())
+    .then(res=> {
+        return res.json()
+    })
     .then(json=>{
-        const page = +req.query.page || 1;  
-        let totalProducts ; 
-        fetch('https://fakestoreapi.com/products')
-        .then(res=>res.json())
-        .then(json=>{
                  totalProducts = Object.keys(json).length ;
                     res.render('user/onlineShop.ejs',{
                         prods : json ,
@@ -55,13 +53,16 @@ exports.getApiIndex =(req,res,next)=>{
                         previousPage:page-1,
                         lastPage:Math.ceil(totalProducts/ITEM_PER_PAGE)
                         
-                        });
+                        })
     
     }).catch(err=>console.log(err))
-})
 };
 exports.getIndex = (req,res,next ) => {
     // const products = new Product() ; 
+    isAdmin = false ; 
+    if(req.user.email === 'snabil084@gmail.com'){
+        isAdmin = true;
+    }
     const page = +req.query.page || 1;  
     let totalProducts ; 
     Product.find()
@@ -69,15 +70,15 @@ exports.getIndex = (req,res,next ) => {
     .then(numProducts=>{
         totalProducts = numProducts ; 
         return Product.find({userId:req.user._id})
-        .skip((page-1)*ITEM_PER_PAGE)
-        .limit(ITEM_PER_PAGE)
+        
     })
     
     .then(products =>{
+
         res.render('user/index.ejs',{
             prods : products ,
              pagetitle :'Products' ,
-              path:'shop',
+              path:'product',
               isAuth: req.session.login,
               currentPage:page,
               totalProducts:totalProducts , 
@@ -85,7 +86,8 @@ exports.getIndex = (req,res,next ) => {
               hasPreviousPage:page>1,
               nextPage:page+1,
               previousPage:page-1,
-              lastPage:Math.ceil(totalProducts/ITEM_PER_PAGE)
+              lastPage:Math.ceil(totalProducts/ITEM_PER_PAGE),
+              user:isAdmin
             
             });
               
@@ -123,7 +125,18 @@ exports.getProduct = (req , res , next)=>{
         catch(err => 
             console.log(err)) ;
 };
-
+exports.postAddCart = (req,res,next)=>{
+    proid = req.body.productId ;
+     fetch('https://fakestoreapi.com/products/'+ proid)
+    .then(res=>res.json())
+    .then(json=>console.log(json))
+    .then(result=>{
+        res.redirect('/cart');
+    })
+    .catch(err=>{
+        console.log(err)
+    })
+}
 exports.postCart = (req, res , next)=> {
     proid = req.body.productId ;
     // product = new Product()
@@ -170,16 +183,30 @@ exports.postCart = (req, res , next)=> {
 }
 
 exports.getCarts= (req,res,next)=>{
-
+    listofProducts = []
+    totalPrice = 0 ; 
     req.user
     .populate('cart.items.productId')
     .execPopulate()
     .then(user=>{
-            products = user.cart.items
+            carts = user.cart.items
+            console.log(carts)
+
+            carts.forEach(cart => {
+                Product.findById(cart._id)
+                .then(product=>{
+                    // totalPrice = totalPrice + (cart.quantity*product.price)
+                   listofProducts.push(product)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })              
+            });
             res.render('user/cart.ejs',{
                             pagetitle:'Cart',
                             path:'/cart',
-                            prods:products,
+                            prods:carts,
+                            totalPrice:totalPrice,
                             isAuth: req.session.login
                         });
         })
@@ -198,7 +225,7 @@ exports.getcheckout = (req, res, next)=>{
             })
             res.render('user/checkout.ejs',{
                             pagetitle:'Cart',
-                            path:'/cart',
+                            path:'/checkout',
                             prods:products,
                             isAuth: req.session.login,
                             totalPrice:totalPrice
